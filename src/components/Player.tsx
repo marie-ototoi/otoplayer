@@ -7,9 +7,15 @@ interface Props {
   autoplay?: boolean;
   side?: number;
   tracks: TrackDataInput[];
+  background?: string;
 }
 
-const Player: FC<Props> = ({ autoplay = false, side = 400, tracks }) => {
+const Player: FC<Props> = ({
+  autoplay = false,
+  background = "#0000ff",
+  side = 400,
+  tracks,
+}) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks));
   useEffect(() => {
     setTracksData(initTracks(tracks));
@@ -17,7 +23,7 @@ const Player: FC<Props> = ({ autoplay = false, side = 400, tracks }) => {
 
   return (
     <div className={styles.Player} style={{ width: side + "px" }}>
-      <div className={styles.PlayerSvg} style={{ backgroundColor: "#0000ff" }}>
+      <div className={styles.PlayerSvg} style={{ background }}>
         <svg
           data-testid="player"
           xmlns="http://www.w3.org/2000/svg"
