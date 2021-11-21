@@ -4,12 +4,15 @@ describe("Player", () => {
   const tracks = [
     {
       duration: 30,
+      url: "/tracks/texte_30.mp3",
     },
     {
       duration: 90,
+      url: "/tracks/texte_30.mp3",
     },
     {
       duration: 65,
+      url: "/tracks/texte_30.mp3",
     },
   ];
   test("should enrich track data with data relative to other tracks", () => {

@@ -2,21 +2,18 @@ import React, { FC, useEffect, useState } from "react";
 import styles from "./Player.module.css";
 import TrackSvg from "./TrackSvg";
 import { initTracks } from "../utils/tracks";
+import usePlayer from "../hooks/usePlayer";
 import type { TrackDataInput, TrackData } from "../types/tracks";
 interface Props {
-  autoplay?: boolean;
   side?: number;
   tracks: TrackDataInput[];
   background?: string;
 }
 
-const Player: FC<Props> = ({
-  autoplay = false,
-  background = "#0000ff",
-  side = 400,
-  tracks,
-}) => {
+const Player: FC<Props> = ({ background = "#0000ff", side = 400, tracks }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks));
+  const [currentTrack, isPlaying, playTrack] = usePlayer(0, false);
+
   useEffect(() => {
     setTracksData(initTracks(tracks));
   }, [tracks]);
@@ -34,6 +31,9 @@ const Player: FC<Props> = ({
           {tracksData.map((track, index) => (
             <TrackSvg
               key={`svg-track-${index}`}
+              currentTrack={currentTrack}
+              isPlaying={isPlaying}
+              playTrack={playTrack}
               side={side}
               track={track}
               total={tracksData[tracksData.length - 1].end}
@@ -46,7 +46,6 @@ const Player: FC<Props> = ({
           <li key={`list-track-${index}`}>{index}</li>
         ))}
       </ul>
-      <audio controls></audio>
     </div>
   );
 };
