@@ -3,10 +3,21 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import Player from "./components/Player";
 import reportWebVitals from "./reportWebVitals";
+const tracks = [
+  {
+    duration: 30,
+  },
+  {
+    duration: 90,
+  },
+  {
+    duration: 65,
+  },
+];
 
 ReactDOM.render(
   <React.StrictMode>
-    <Player />
+    <Player tracks={tracks} />
   </React.StrictMode>,
   document.getElementById("root")
 );
