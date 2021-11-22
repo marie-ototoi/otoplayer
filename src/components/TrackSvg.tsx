@@ -22,7 +22,17 @@ const TrackSvg: FC<Props> = ({
   const [progress, setProgress] = useState<number>(position);
   const [trackIsPlaying, setTrackIsPlaying] = useState<boolean | null>(null);
   const audioRef = useRef(new Audio(url));
-  console.log(track);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const updateProgress = () => {
+        setProgress(audioRef.current.currentTime);
+      };
+      audioRef.current.addEventListener("timeupdate", updateProgress);
+      return () =>
+        audioRef.current.removeEventListener("timeupdate", updateProgress);
+    }
+  }, [audioRef]);
   useEffect(() => {
     if (isPlaying !== trackIsPlaying) {
       if (isPlaying && index === currentTrack) {
