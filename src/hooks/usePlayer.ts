@@ -8,9 +8,11 @@ const usePlayer = (
   const [isPlaying, setIsPlaying] = useState<boolean>(autoplay);
 
   const playTrack = (trackIndex: number, play: boolean = true): void => {
+    console.log(trackIndex, play);
     setCurrentTrack(trackIndex);
     setIsPlaying(play);
   };
+
   return [currentTrack, isPlaying, playTrack];
 };
 

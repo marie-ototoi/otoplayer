@@ -36,7 +36,7 @@ const Player: FC<Props> = ({ background = "#0000ff", side = 400, tracks }) => {
               playTrack={playTrack}
               side={side}
               track={track}
-              total={tracksData[tracksData.length - 1].end}
+              total={tracksData[0].end}
             />
           ))}
         </svg>

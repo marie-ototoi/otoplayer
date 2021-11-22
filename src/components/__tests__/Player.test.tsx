@@ -4,13 +4,16 @@ import Player from "../Player";
 
 const tracks = [
   {
-    duration: 70,
+    duration: 30,
+    url: "/tracks/texte_30.mp3",
   },
   {
     duration: 90,
+    url: "/tracks/texte_30.mp3",
   },
   {
     duration: 65,
+    url: "/tracks/texte_30.mp3",
   },
 ];
 describe("Player", () => {
@@ -21,7 +24,7 @@ describe("Player", () => {
   });
   test("should render the tracks", () => {
     render(<Player tracks={tracks} />);
-    const svgTracks = screen.getAllByText(/Track/);
+    const svgTracks = screen.getByTestId("player").children;
     expect(svgTracks.length).toEqual(tracks.length);
   });
 });

@@ -18,11 +18,12 @@ describe("Player", () => {
   test("should enrich track data with data relative to other tracks", () => {
     expect(initTracks(tracks)).toEqual([
       {
-        duration: 30,
-        end: 80,
-        index: 0,
+        duration: 65,
+        end: 235,
+        index: 2,
         position: 0,
-        start: 50,
+        start: 170,
+        url: "/tracks/texte_30.mp3",
       },
       {
         duration: 90,
@@ -30,13 +31,15 @@ describe("Player", () => {
         index: 1,
         position: 0,
         start: 80,
+        url: "/tracks/texte_30.mp3",
       },
       {
-        duration: 65,
-        end: 235,
-        index: 2,
+        duration: 30,
+        end: 80,
+        index: 0,
         position: 0,
-        start: 170,
+        start: 50,
+        url: "/tracks/texte_30.mp3",
       },
     ]);
   });

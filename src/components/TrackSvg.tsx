@@ -22,10 +22,10 @@ const TrackSvg: FC<Props> = ({
   const [progress, setProgress] = useState<number>(position);
   const [trackIsPlaying, setTrackIsPlaying] = useState<boolean | null>(null);
   const audioRef = useRef(new Audio(url));
-
+  console.log(track);
   useEffect(() => {
     if (isPlaying !== trackIsPlaying) {
-      if (isPlaying) {
+      if (isPlaying && index === currentTrack) {
         audioRef.current
           .play()
           .then(function () {
@@ -39,8 +39,8 @@ const TrackSvg: FC<Props> = ({
         setTrackIsPlaying(isPlaying);
       }
     }
-  }, [isPlaying, trackIsPlaying]);
-  console.log(isPlaying, trackIsPlaying);
+  }, [currentTrack, index, isPlaying, trackIsPlaying]);
+
   const offset = side / 2;
   const radius = {
     start: (start * (side - 5)) / 2 / total,
@@ -66,6 +66,15 @@ const TrackSvg: FC<Props> = ({
         strokeDasharray={circumference}
         strokeDashoffset={strokeOffset}
         className={styles.Track__played}
+        cx={offset}
+        cy={offset}
+      />
+      <circle
+        r={radius.middle}
+        strokeWidth={radius.end - radius.start}
+        strokeDasharray={circumference}
+        strokeDashoffset={0}
+        className={styles.Track__transparent}
         cx={offset}
         cy={offset}
       />
