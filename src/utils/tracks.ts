@@ -1,17 +1,17 @@
-import type { TrackDataInput, TrackData } from "../types/tracks";
+import type { TrackDataInput, TrackData } from '../types/tracks'
 
 export const initTracks = (tracks: TrackDataInput[]): TrackData[] => {
   return tracks
     .reduce((acc: TrackData[], cur: TrackDataInput, index: number) => {
-      const prev = acc.length > 0 ? acc[acc.length - 1].end : 50;
+      const prev = acc.length > 0 ? acc[acc.length - 1].end : 50
       acc.push({
         ...cur,
         position: 0,
         start: prev,
         end: prev + cur.duration,
         index,
-      });
-      return acc;
+      })
+      return acc
     }, [])
-    .reverse();
-};
+    .reverse()
+}
