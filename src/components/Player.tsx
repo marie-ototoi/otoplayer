@@ -19,7 +19,7 @@ const Player: FC<Props> = ({
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks));
-  const [currentTrack, isPlaying, playTrack, nextTrack, previousTrack] =
+  const [currentTrack, isPlaying, setTrack, nextTrack, previousTrack] =
     usePlayer(0, tracks.length);
 
   useEffect(() => {
@@ -41,7 +41,8 @@ const Player: FC<Props> = ({
             key={`svg-track-${index}`}
             currentTrack={currentTrack}
             isPlaying={isPlaying}
-            playTrack={playTrack}
+            setTrack={setTrack}
+            nextTrack={nextTrack}
             side={side}
             track={track}
             total={tracksData[0].end}

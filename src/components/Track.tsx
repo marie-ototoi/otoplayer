@@ -1,55 +1,40 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import useTrack from "../hooks/useTrack";
 import styles from "./Track.module.css";
 import type { TrackData } from "../types/tracks";
 
 interface Props {
   currentTrack: number;
   isPlaying: boolean;
-  playTrack: (index: number, play: boolean) => void;
+  setTrack: (index: number, play: boolean) => void;
+  nextTrack: () => void;
   side: number;
   total: number;
   track: TrackData;
 }
-const TrackSvg: FC<Props> = ({
+const Track: FC<Props> = ({
   currentTrack,
   isPlaying,
-  playTrack,
+  nextTrack,
+  setTrack,
   side,
   total,
   track,
 }) => {
   const { index, start, end, duration, position, url } = track;
-  const [progress, setProgress] = useState<number>(position);
-  const [trackIsPlaying, setTrackIsPlaying] = useState<boolean | null>(null);
-  const audioRef = useRef(new Audio(url));
+  const [progress, trackIsPlaying, play, pause] = useTrack(
+    position,
+    url,
+    nextTrack
+  );
 
   useEffect(() => {
-    if (audioRef.current) {
-      const updateProgress = () => {
-        setProgress(audioRef.current.currentTime);
-      };
-      audioRef.current.addEventListener("timeupdate", updateProgress);
-      return () =>
-        audioRef.current.removeEventListener("timeupdate", updateProgress);
+    if (isPlaying && index === currentTrack) {
+      play();
+    } else {
+      pause();
     }
-  }, [audioRef]);
-  useEffect(() => {
-    if (isPlaying !== trackIsPlaying) {
-      if (isPlaying && index === currentTrack) {
-        audioRef.current
-          .play()
-          .then(function () {
-            setTrackIsPlaying(isPlaying);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      } else {
-        audioRef.current.pause();
-        setTrackIsPlaying(isPlaying);
-      }
-    }
-  }, [currentTrack, index, isPlaying, trackIsPlaying]);
+  }, [currentTrack, index, isPlaying, play, pause]);
 
   const offset = side / 2;
   const radius = {
@@ -62,13 +47,16 @@ const TrackSvg: FC<Props> = ({
   return (
     <g
       className={styles.Track}
-      onClick={() => playTrack(index, !trackIsPlaying)}
+      onClick={() => {
+        setTrack(index, !trackIsPlaying);
+      }}
     >
       <circle
         r={radius.end}
         className={styles.Track__limit}
         cx={offset}
         cy={offset}
+        strokeOpacity={0.5}
       />
       <circle
         r={radius.middle}
@@ -92,4 +80,4 @@ const TrackSvg: FC<Props> = ({
   );
 };
 
-export default TrackSvg;
+export default Track;
