@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import styles from "./TrackSvg.module.css";
+import styles from "./Track.module.css";
 import type { TrackData } from "../types/tracks";
 
 interface Props {
