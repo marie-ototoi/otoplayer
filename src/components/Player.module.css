@@ -2,6 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-.PlayerSvg {
-  display: inline-block;
-}

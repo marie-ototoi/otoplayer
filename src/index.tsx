@@ -53,11 +53,7 @@ const tracks = [
 
 ReactDOM.render(
   <React.StrictMode>
-    <Player
-      tracks={tracks}
-      background="url('/a_71/cover/cover_71.jpg')"
-      side={395}
-    />
+    <Player tracks={tracks} cover="/a_71/cover/cover_71.jpg" side={400} />
   </React.StrictMode>,
   document.getElementById("root")
 );
