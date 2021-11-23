@@ -1,19 +1,39 @@
 import React, { useState } from "react";
 
-const usePlayer = (
-  trackIndex: number,
-  autoplay: boolean
-): [number, boolean, (trackIndex: number, play?: boolean) => void] => {
+type Props = [
+  number,
+  boolean,
+  (trackIndex: number, play?: boolean) => void,
+  () => number,
+  () => number
+];
+
+const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   const [currentTrack, setCurrentTrack] = useState<number>(trackIndex);
-  const [isPlaying, setIsPlaying] = useState<boolean>(autoplay);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const playTrack = (trackIndex: number, play: boolean = true): void => {
-    console.log(trackIndex, play);
     setCurrentTrack(trackIndex);
     setIsPlaying(play);
   };
 
-  return [currentTrack, isPlaying, playTrack];
+  const nextTrack = (): number => {
+    if (trackIndex < lastIndex - 1) {
+      setCurrentTrack(trackIndex + 1);
+      return trackIndex + 1;
+    }
+    return trackIndex;
+  };
+
+  const previousTrack = (): number => {
+    if (trackIndex > 0) {
+      setCurrentTrack(trackIndex - 1);
+      return trackIndex - 1;
+    }
+    return trackIndex;
+  };
+
+  return [currentTrack, isPlaying, playTrack, nextTrack, previousTrack];
 };
 
 export default usePlayer;

@@ -12,7 +12,8 @@ interface Props {
 
 const Player: FC<Props> = ({ background = "#0000ff", side = 400, tracks }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks));
-  const [currentTrack, isPlaying, playTrack] = usePlayer(0, false);
+  const [currentTrack, isPlaying, playTrack, nextTrack, previousTrack] =
+    usePlayer(0, tracks.length);
 
   useEffect(() => {
     setTracksData(initTracks(tracks));
