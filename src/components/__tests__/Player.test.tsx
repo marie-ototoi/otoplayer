@@ -25,6 +25,6 @@ describe('Player', () => {
   test('should render the tracks', () => {
     render(<Player tracks={tracks} />)
     const svgTracks = screen.getByTestId('player').children
-    expect(svgTracks.length).toEqual(tracks.length + 2)
+    expect(svgTracks.length).toEqual(tracks.length + 1)
   })
 })
