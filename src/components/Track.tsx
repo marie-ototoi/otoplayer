@@ -8,11 +8,21 @@ interface Props {
   isPlaying: boolean
   setTrack: (index: number, play: boolean) => void
   nextTrack: () => void
+  playButtonRadius: number
   side: number
   total: number
   track: TrackData
 }
-const Track: FC<Props> = ({ currentTrack, isPlaying, nextTrack, setTrack, side, total, track }) => {
+const Track: FC<Props> = ({
+  currentTrack,
+  isPlaying,
+  nextTrack,
+  playButtonRadius,
+  setTrack,
+  side,
+  total,
+  track,
+}) => {
   const { index, start, end, duration, position, url } = track
   const [progress, trackIsPlaying, play, pause] = useTrack(position, url, nextTrack)
 
@@ -26,10 +36,12 @@ const Track: FC<Props> = ({ currentTrack, isPlaying, nextTrack, setTrack, side, 
 
   const offset = side / 2
   const radius = {
-    start: (start * (side - 5)) / 2 / total,
-    end: (end * (side - 5)) / 2 / total,
-    middle: ((start + (end - start) / 2) * (side - 5)) / 2 / total,
+    start: playButtonRadius + (start * (side / 2 - playButtonRadius)) / total,
+    end: playButtonRadius + (end * (side / 2 - playButtonRadius)) / total,
+    middle:
+      playButtonRadius + ((start + (end - start) / 2) * (side / 2 - playButtonRadius)) / total,
   }
+
   const circumference = Math.PI * radius.middle * 2
   const strokeOffset = circumference - (progress * circumference) / duration
   return (

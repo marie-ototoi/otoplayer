@@ -3,7 +3,7 @@ import { useState } from 'react'
 type Props = [
   number,
   boolean,
-  (trackIndex: number, play?: boolean) => void,
+  (trackIndex?: number, play?: boolean) => void,
   () => number,
   () => number
 ]
@@ -12,7 +12,7 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   const [currentTrack, setCurrentTrack] = useState<number>(trackIndex)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
-  const playTrack = (trackIndex: number, play: boolean = true): void => {
+  const playTrack = (trackIndex: number = currentTrack, play: boolean = true): void => {
     setCurrentTrack(trackIndex)
     setIsPlaying(play)
   }
