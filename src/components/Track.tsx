@@ -6,6 +6,7 @@ import type { TrackData } from '../types/tracks'
 interface Props {
   currentTrack: number
   isPlaying: boolean
+  tracksLength: number
   setTrack: (index: number, play: boolean) => void
   nextTrack: () => void
   playButtonRadius: number
@@ -16,6 +17,7 @@ interface Props {
 const Track: FC<Props> = ({
   currentTrack,
   isPlaying,
+  tracksLength,
   nextTrack,
   playButtonRadius,
   setTrack,
@@ -43,6 +45,8 @@ const Track: FC<Props> = ({
   }
 
   const circumference = Math.PI * radius.middle * 2
+  const rotation = (index * 360) / tracksLength
+
   const strokeOffset = circumference - (progress * circumference) / duration
   return (
     <g
@@ -50,6 +54,7 @@ const Track: FC<Props> = ({
       onClick={() => {
         setTrack(index, !trackIsPlaying)
       }}
+      transform={`rotate(${rotation}, ${offset}, ${offset})`}
     >
       <circle
         r={radius.end}

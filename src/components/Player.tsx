@@ -43,6 +43,7 @@ const Player: FC<Props> = ({
             key={`svg-track-${index}`}
             currentTrack={currentTrack}
             isPlaying={isPlaying}
+            tracksLength={tracks.length}
             nextTrack={nextTrack}
             playButtonRadius={playButtonRadius}
             setTrack={setTrack}
