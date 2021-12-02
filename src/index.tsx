@@ -6,47 +6,47 @@ const tracks = [
   {
     duration: 326,
     url: '/a_71/disque_1/tracks/01_Izdiucz.mp3',
-    name: 'Izdiucz',
+    title: 'Izdiucz',
   },
   {
     duration: 298,
     url: '/a_71/disque_1/tracks/02_Hig.mp3',
-    name: 'Hig',
+    title: 'Hig',
   },
   {
     duration: 244,
     url: '/a_71/disque_1/tracks/03_MehrabanBash.mp3',
-    name: 'Mehraban Bash',
+    title: 'Mehraban Bash',
   },
   {
     duration: 386,
     url: '/a_71/disque_1/tracks/04_Nebah.mp3',
-    name: 'Nebah',
+    title: 'Nebah',
   },
   {
     duration: 295,
     url: '/a_71/disque_1/tracks/05_Oudische.mp3',
-    name: 'Oudische',
+    title: 'Oudische',
   },
   {
     duration: 250,
     url: '/a_71/disque_1/tracks/06_IzdiuczRadioEdit.mp3',
-    name: 'IzdiuczRadioEdit',
+    title: 'IzdiuczRadioEdit',
   },
   {
     duration: 205,
     url: '/a_71/disque_1/tracks/07_Ayn.mp3',
-    name: 'Ayn',
+    title: 'Ayn',
   },
   {
     duration: 288,
     url: '/a_71/disque_1/tracks/08_Volkische.mp3',
-    name: 'Izdiucz',
+    title: 'Izdiucz',
   },
   {
     duration: 305,
     url: '/a_71/disque_1/tracks/09_HijazOnD.mp3',
-    name: 'HijazOnD',
+    title: 'HijazOnD',
   },
 ]
 
