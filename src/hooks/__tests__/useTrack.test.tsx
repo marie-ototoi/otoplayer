@@ -1,28 +1,39 @@
-import React, { FC } from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react-hooks'
 import useTrack from '../useTrack'
 
-interface Props {
-  position: number
-  url: string
-  nextTrack: () => void
-}
-const TestUseTrack: FC<Props> = ({ position, url, nextTrack }) => {
-  const [progress, trackIsPlaying, play, pause] = useTrack(position, url, nextTrack)
-  return (
-    <div>
-      <button onClick={play}>play</button>
-      <button onClick={pause}>pause</button>
+describe('useTrack', () => {
+  //  [progress, trackIsPlaying, play, pause]
+  test('should set the initial position as given', async () => {
+    const { result } = renderHook(() => useTrack(0, 'test', () => {}))
+    await waitFor(() => {
+      expect(result.current[0]).toBe(0)
+    })
+  })
+  test('should set the initial playing state to false', async () => {
+    const { result } = renderHook(() => useTrack(0, 'test', () => {}))
 
-      <h1>Progress: {progress}</h1>
-      <h2>Playing: {trackIsPlaying ? 'true' : 'false'}</h2>
-    </div>
-  )
-}
-
-describe('usePlayer', () => {
-  test('should return the initial track as current track', () => {
-    render(<TestUseTrack position={0} url="test" nextTrack={() => {}} />)
-    // expect(screen.getByRole('heading', { name: /Current: 1/ })).toBeInTheDocument()
+    await waitFor(() => {
+      expect(result.current[1]).toBe(false)
+    })
+  })
+  test('should set the playing state to true when the user clicks on play', async () => {
+    const { result } = renderHook(() => useTrack(0, 'test', () => {}))
+    act(() => {
+      result.current[2]()
+    })
+    await waitFor(() => {
+      expect(result.current[1]).toBe(true)
+    })
+  })
+  test('should set the playing state to false when the user clicks on pause', async () => {
+    const { result } = renderHook(() => useTrack(0, 'test', () => {}))
+    act(() => {
+      result.current[2]()
+      result.current[3]()
+    })
+    await waitFor(() => {
+      expect(result.current[1]).toBe(false)
+    })
   })
 })
