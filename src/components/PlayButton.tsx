@@ -14,15 +14,22 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
     },${0} ${-1 * (playButtonRadius / 4)},${playButtonRadius / 2}`
   )
   return (
-    <button className={styles.PlayButton} onClick={() => setTrack(undefined, !isPlaying)}>
+    <button
+      className={styles.PlayButton}
+      style={{
+        left: side / 2 - playButtonRadius / 1.5 + 'px',
+        top: side / 2 - playButtonRadius / 1.5 + 'px',
+      }}
+      onClick={() => setTrack(undefined, !isPlaying)}
+    >
       <svg
         data-testid="button"
         xmlns="http://www.w3.org/2000/svg"
-        width={side}
-        height={side}
+        width={playButtonRadius * 2}
+        height={playButtonRadius * 2}
         focusable="false"
       >
-        <g transform={`translate(${side / 2},${side / 2})`}>
+        <g transform={`translate(${playButtonRadius},${playButtonRadius})`}>
           {isPlaying ? (
             <>
               <rect
