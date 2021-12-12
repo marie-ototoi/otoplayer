@@ -22,7 +22,8 @@ const Player: FC<Props> = ({
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks))
-  const [currentTrack, isPlaying, setTrack, nextTrack] = usePlayer(0, tracks.length)
+  const [currentTrack, hoveredTrack, isPlaying, setTrack, nextTrack, previousTrack, hoverTrack] =
+    usePlayer(0, tracks.length)
 
   useEffect(() => {
     setTracksData(initTracks(tracks))
@@ -48,10 +49,12 @@ const Player: FC<Props> = ({
           <Track
             key={`svg-track-${index}`}
             currentTrack={currentTrack}
+            hoveredTrack={hoveredTrack}
             isPlaying={isPlaying}
             tracksLength={tracks.length}
             nextTrack={nextTrack}
             playButtonRadius={playButtonRadius}
+            hoverTrack={hoverTrack}
             setTrack={setTrack}
             side={side}
             total={tracksData[tracksData.length - 1].end}

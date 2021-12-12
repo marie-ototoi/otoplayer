@@ -2,14 +2,17 @@ import { useState } from 'react'
 
 type Props = [
   number,
+  number | null,
   boolean,
   (trackIndex?: number, play?: boolean) => void,
   () => number,
-  () => number
+  () => number,
+  (trackIndex: number | null) => void
 ]
 
 const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   const [currentTrack, setCurrentTrack] = useState<number>(trackIndex)
+  const [hoveredTrack, setHoveredTrack] = useState<number | null>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
   const playTrack = (trackIndex: number = currentTrack, play: boolean = true): void => {
@@ -33,7 +36,12 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
     return trackIndex
   }
 
-  return [currentTrack, isPlaying, playTrack, nextTrack, previousTrack]
+  const hoverTrack = (trackIndex: number | null): void => {
+    if (hoveredTrack !== trackIndex) {
+      setHoveredTrack(trackIndex)
+    }
+  }
+  return [currentTrack, hoveredTrack, isPlaying, playTrack, nextTrack, previousTrack, hoverTrack]
 }
 
 export default usePlayer

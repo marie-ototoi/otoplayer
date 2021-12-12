@@ -6,9 +6,11 @@ import type { TrackData } from '../types/tracks'
 
 interface Props {
   currentTrack: number
+  hoveredTrack: number | null
   isPlaying: boolean
   tracksLength: number
   setTrack: (index: number, play: boolean) => void
+  hoverTrack: (index: number | null) => void
   nextTrack: () => void
   playButtonRadius: number
   side: number
@@ -17,11 +19,13 @@ interface Props {
 }
 const Track: FC<Props> = ({
   currentTrack,
+  hoveredTrack,
   isPlaying,
   tracksLength,
   nextTrack,
   playButtonRadius,
   setTrack,
+  hoverTrack,
   side,
   total,
   track,
@@ -62,6 +66,18 @@ const Track: FC<Props> = ({
           setTrack(index, !trackIsPlaying)
           e.preventDefault()
         }}
+        onFocus={() => {
+          hoverTrack(index)
+        }}
+        onBlur={() => {
+          hoverTrack(null)
+        }}
+        onMouseEnter={() => {
+          hoverTrack(index)
+        }}
+        onMouseLeave={() => {
+          hoverTrack(null)
+        }}
         className={styles.Track}
       >
         <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>
@@ -82,7 +98,7 @@ const Track: FC<Props> = ({
           />
         </g>
       </a>
-      {currentTrack === index && (
+      {(hoveredTrack === index || (hoveredTrack === null && currentTrack === index)) && (
         <foreignObject x={0} y={side} width={side} height={100}>
           <div className={styles.Track__infos}>
             <h2 className={styles.Track__infos__title}>{title}</h2>
