@@ -55,7 +55,7 @@ const Player: FC<Props> = ({
             playButtonRadius={playButtonRadius}
             setTrack={setTrack}
             side={side}
-            total={tracksData[0].end}
+            total={tracksData[tracksData.length - 1].end}
             track={track}
           />
         ))}
