@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react'
 import styles from './Player.module.css'
 import Cover from './Cover'
 import PlayButton from './PlayButton'
-import PlayList from './PlayList'
 import Track from './Track'
 import { initTracks } from '../utils/tracks'
 import usePlayer from '../hooks/usePlayer'
@@ -60,8 +59,6 @@ const Player: FC<Props> = ({
           />
         ))}
       </svg>
-
-      <PlayList currentTrack={currentTrack} tracks={tracksData} />
     </div>
   )
 }

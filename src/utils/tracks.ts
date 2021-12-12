@@ -20,3 +20,14 @@ export const getRingPath = (radius: number, side: number): string => {
   A ${radius},${radius} 0 1,1 ${-radius}, ${0}
   `
 }
+
+export const formatDuration = (duration: number): string => {
+  const date = new Date()
+  date.setHours(0, 0, duration)
+  let options: Intl.DateTimeFormatOptions = {
+    minute: 'numeric',
+    second: 'numeric',
+  }
+  if (date.getHours() > 0) options.hour = 'numeric'
+  return new Intl.DateTimeFormat('fr-FR', options).format(date)
+}

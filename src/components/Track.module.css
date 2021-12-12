@@ -27,3 +27,25 @@
 :focus .Track__transparent {
   stroke-opacity: 0.4;
 }
+.Track__infos {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+  margin: 10px 0 0 0;
+}
+
+.Track__infos__title {
+  font-size: 0.8em;
+  font-weight: normal;
+  color: #666;
+  margin: 0;
+  padding: 0;
+}
+.Track__infos__time {
+  font-size: 0.8em;
+  color: #666;
+  margin: 0;
+  padding: 0;
+}

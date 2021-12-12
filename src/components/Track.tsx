@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react'
 import useTrack from '../hooks/useTrack'
-import { getRingPath } from '../utils/tracks'
+import { formatDuration, getRingPath } from '../utils/tracks'
 import styles from './Track.module.css'
 import type { TrackData } from '../types/tracks'
 
@@ -26,7 +26,7 @@ const Track: FC<Props> = ({
   total,
   track,
 }) => {
-  const { index, start, end, duration, position, url } = track
+  const { index, start, end, duration, position, title, url } = track
   const [progress, trackIsPlaying, play, pause] = useTrack(position, url, nextTrack)
 
   useEffect(() => {
@@ -53,6 +53,7 @@ const Track: FC<Props> = ({
   const rotation = (index * 360) / tracksLength
 
   const strokeOffset = circumference - (progress * circumference) / duration
+  const formattedDuration = useMemo(() => formatDuration(duration), [duration])
   return (
     <>
       <a
@@ -81,9 +82,16 @@ const Track: FC<Props> = ({
           />
         </g>
       </a>
-      <foreignObject x={0} y={side} width={side} height={100}>
-        <h2>Track Name</h2>
-      </foreignObject>
+      {currentTrack === index && (
+        <foreignObject x={0} y={side} width={side} height={100}>
+          <div className={styles.Track__infos}>
+            <h2 className={styles.Track__infos__title}>{title}</h2>
+            <p className={styles.Track__infos__time}>
+              <time>{formatDuration(progress)}</time>/<time>{formattedDuration}</time>
+            </p>
+          </div>
+        </foreignObject>
+      )}
     </>
   )
 }
