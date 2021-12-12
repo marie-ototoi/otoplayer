@@ -31,20 +31,20 @@ const Player: FC<Props> = ({
 
   return (
     <div className={styles.Player} style={{ width: side + 'px', background }}>
-      <PlayButton
-        isPlaying={isPlaying}
-        playButtonRadius={playButtonRadius}
-        setTrack={setTrack}
-        side={side}
-      />
       <svg
         data-testid="player"
         xmlns="http://www.w3.org/2000/svg"
         width={side}
-        height={side}
+        height={side + 100}
         focusable="false"
       >
         {cover && <Cover side={side} cover={cover} />}
+        <PlayButton
+          isPlaying={isPlaying}
+          playButtonRadius={playButtonRadius}
+          setTrack={setTrack}
+          side={side}
+        />
         {tracksData.map((track, index) => (
           <Track
             key={`svg-track-${index}`}

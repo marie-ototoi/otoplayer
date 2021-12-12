@@ -63,7 +63,7 @@ const Track: FC<Props> = ({
         }}
         className={styles.Track}
       >
-        <g transform={`rotate(${rotation}, ${offset}, ${offset})`}>
+        <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>
           <path d={endPath} className={styles.Track__limit} strokeOpacity={0.5} />
           <path
             d={middlePath}

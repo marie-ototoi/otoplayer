@@ -11,8 +11,7 @@
 .Track__played {
   fill: none;
   stroke: white;
-  transform: rotate(-180deg);
-  transform-origin: center;
+  transform: rotate(180deg);
   stroke-linecap: round;
   transition: stroke-dashoffset 1s;
   cursor: pointer;
