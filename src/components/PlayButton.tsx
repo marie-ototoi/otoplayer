@@ -27,9 +27,16 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
         xmlns="http://www.w3.org/2000/svg"
         width={playButtonRadius * 2}
         height={playButtonRadius * 2}
-        focusable="false"
+        focusable="true"
       >
         <g transform={`translate(${playButtonRadius},${playButtonRadius})`}>
+          <circle
+            r={playButtonRadius}
+            fill="#ffffff"
+            stroke="#ffffff"
+            strokeOpacity={0.5}
+            className={styles.PlayButton__background}
+          />
           {isPlaying ? (
             <>
               <rect

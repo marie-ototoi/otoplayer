@@ -49,39 +49,42 @@ const Track: FC<Props> = ({
 
   const strokeOffset = circumference - (progress * circumference) / duration
   return (
-    <g
-      className={styles.Track}
-      onClick={() => {
+    <a
+      href="#otoplayer"
+      onClick={e => {
         setTrack(index, !trackIsPlaying)
+        e.preventDefault()
       }}
-      transform={`rotate(${rotation}, ${offset}, ${offset})`}
+      className={styles.Track}
     >
-      <circle
-        r={radius.end}
-        className={styles.Track__limit}
-        cx={offset}
-        cy={offset}
-        strokeOpacity={0.5}
-      />
-      <circle
-        r={radius.middle}
-        strokeWidth={radius.end - radius.start}
-        strokeDasharray={circumference}
-        strokeDashoffset={strokeOffset}
-        className={styles.Track__played}
-        cx={offset}
-        cy={offset}
-      />
-      <circle
-        r={radius.middle}
-        strokeWidth={radius.end - radius.start}
-        strokeDasharray={circumference}
-        strokeDashoffset={0}
-        className={styles.Track__transparent}
-        cx={offset}
-        cy={offset}
-      />
-    </g>
+      <g transform={`rotate(${rotation}, ${offset}, ${offset})`}>
+        <circle
+          r={radius.end}
+          className={styles.Track__limit}
+          cx={offset}
+          cy={offset}
+          strokeOpacity={0.5}
+        />
+        <circle
+          r={radius.middle}
+          strokeWidth={radius.end - radius.start}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeOffset}
+          className={styles.Track__played}
+          cx={offset}
+          cy={offset}
+        />
+        <circle
+          r={radius.middle}
+          strokeWidth={radius.end - radius.start}
+          strokeDasharray={circumference}
+          strokeDashoffset={0}
+          className={styles.Track__transparent}
+          cx={offset}
+          cy={offset}
+        />
+      </g>
+    </a>
   )
 }
 

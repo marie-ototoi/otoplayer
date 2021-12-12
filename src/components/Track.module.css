@@ -1,10 +1,14 @@
+.Track:focus {
+  outline: none;
+}
+
 .Track__limit {
   fill: white;
   fill-opacity: 0;
   stroke: white;
 }
+
 .Track__played {
-  fill: white;
   fill-opacity: 0;
   stroke: white;
   transform: rotate(-90deg);
@@ -15,12 +19,12 @@
 }
 
 .Track__transparent {
-  stroke: transparent;
-  stroke-opacity: 0.5;
-  fill: transparent;
-  transform: rotate(-90deg);
-  transform-origin: center;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s;
+  fill-opacity: 0;
   cursor: pointer;
+  stroke: white;
+  stroke-opacity: 0;
+}
+
+:focus .Track__transparent {
+  stroke-opacity: 0.4;
 }
