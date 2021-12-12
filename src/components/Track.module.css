@@ -3,15 +3,15 @@
 }
 
 .Track__limit {
-  fill: white;
+  fill: none;
   fill-opacity: 0;
   stroke: white;
 }
 
 .Track__played {
-  fill-opacity: 0;
+  fill: none;
   stroke: white;
-  transform: rotate(-90deg);
+  transform: rotate(-180deg);
   transform-origin: center;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s;
@@ -19,7 +19,7 @@
 }
 
 .Track__transparent {
-  fill-opacity: 0;
+  fill: none;
   cursor: pointer;
   stroke: white;
   stroke-opacity: 0;
