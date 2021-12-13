@@ -24,7 +24,8 @@
   stroke-opacity: 0;
 }
 
-:focus .Track__transparent {
+.Track:focus .Track__transparent,
+.Track:hover .Track__transparent {
   stroke-opacity: 0.4;
 }
 .Track__infos {

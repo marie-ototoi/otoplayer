@@ -18,6 +18,8 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
       href="#otoplayer"
       onClick={() => setTrack(undefined, !isPlaying)}
       className={styles.PlayButton}
+      title={`${isPlaying ? 'Pause' : 'Play'} current track`}
+      role="button"
     >
       <g transform={`translate(${side / 2},${side / 2})`}>
         <circle

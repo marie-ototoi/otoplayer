@@ -4,7 +4,8 @@
 .PlayButton__background {
   fill-opacity: 0;
 }
-:focus .PlayButton__background {
+.PlayButton:focus .PlayButton__background,
+.PlayButton:hover .PlayButton__background {
   fill-opacity: 0.4;
 }
 .PlayButton {

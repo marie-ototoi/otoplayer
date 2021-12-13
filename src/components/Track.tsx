@@ -79,6 +79,8 @@ const Track: FC<Props> = ({
           hoverTrack(null)
         }}
         className={styles.Track}
+        title={`${trackIsPlaying ? 'Pause' : 'Play'} track ${index + 1}} ${title}`}
+        role="button"
       >
         <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>
           <path d={endPath} className={styles.Track__limit} strokeOpacity={0.5} />
