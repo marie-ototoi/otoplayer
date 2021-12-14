@@ -105,7 +105,8 @@ const Track: FC<Props> = ({
           <div className={styles.Track__infos}>
             <h2 className={styles.Track__infos__title}>{title}</h2>
             <p className={styles.Track__infos__time}>
-              <time>{formatDuration(progress)}</time>/<time>{formattedDuration}</time>
+              <time title="time elapsed">{formatDuration(progress)}</time>/
+              <time title="total time">{formattedDuration}</time>
             </p>
           </div>
         </foreignObject>
