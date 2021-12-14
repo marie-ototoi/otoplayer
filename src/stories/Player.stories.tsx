@@ -1,7 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import Player from './components/Player'
-import reportWebVitals from './reportWebVitals'
+import { ComponentMeta } from '@storybook/react'
+
+import { Player } from '../'
+
 const tracks = [
   {
     duration: 326,
@@ -50,14 +51,27 @@ const tracks = [
   },
 ]
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Player tracks={tracks} cover="/a_71/cover/cover_71.jpg" side={400} />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+export default {
+  title: 'Player',
+  component: Player,
+  argTypes: {
+    cover: {
+      control: { type: 'text' },
+    },
+    side: {
+      control: { type: 'number' },
+    },
+  },
+} as ComponentMeta<typeof Player>
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(console.log)
+const Template = args => {
+  return <Player {...args} />
+}
+
+const WithCover = Template.bind({})
+WithCover.args = {
+  cover: '/a_71/cover/cover_71.jpg',
+  side: 400,
+  tracks,
+}
+export { WithCover }
