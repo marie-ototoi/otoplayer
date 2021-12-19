@@ -1,13 +1,3 @@
-.PlayButton:focus {
-  outline: none;
-}
-.PlayButton__background {
-  fill-opacity: 0;
-}
-.PlayButton:focus .PlayButton__background,
-.PlayButton:hover .PlayButton__background {
-  fill-opacity: 0.4;
-}
 .PlayButton {
   cursor: pointer;
   position: absolute;
@@ -16,4 +6,22 @@
   padding: 0;
   margin: 0;
   border-radius: 2em;
+}
+.PlayButton:focus {
+  outline: none;
+}
+.PlayButton:focus .PlayButton__background,
+.PlayButton:hover .PlayButton__background {
+  fill-opacity: 0.4;
+}
+.PlayButton__background {
+  fill-opacity: 0;
+  stroke-opacity: 0.5;
+}
+.PlayButton__play {
+  stroke-linejoin: round;
+}
+.PlayButton__radius {
+  fill: transparent;
+  stroke-opacity: 0.5;
 }

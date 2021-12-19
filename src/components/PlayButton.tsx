@@ -2,12 +2,13 @@ import React, { FC, useEffect, useState } from 'react'
 import styles from './PlayButton.module.css'
 
 interface Props {
+  fillColor: string
   isPlaying: boolean
   playButtonRadius: number
   setTrack: (index?: number, play?: boolean) => void
   side: number
 }
-const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
+const Cover: FC<Props> = ({ fillColor, isPlaying, playButtonRadius, setTrack, side }) => {
   const [playButton, setPlayButton] = useState(``)
   useEffect(() => {
     setPlayButton(
@@ -25,42 +26,38 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
       role="button"
     >
       <g transform={`translate(${side / 2},${side / 2})`}>
-        <circle
-          r={playButtonRadius}
-          fill="#ffffff"
-          stroke="#ffffff"
-          strokeOpacity={0.5}
-          className={styles.PlayButton__background}
-        />
+        <circle className={styles.PlayButton__background} r={playButtonRadius} fill={fillColor} />
         {isPlaying ? (
           <>
             <rect
-              fill="#ffffff"
-              x={-playButtonRadius / 3 - playButtonRadius / 8}
+              className={styles.PlayButton__pause}
+              fill={fillColor}
+              height={playButtonRadius}
               rx={playButtonRadius / 12}
               width={playButtonRadius / 3}
+              x={-playButtonRadius / 3 - playButtonRadius / 8}
               y={(-1 * playButtonRadius) / 2}
-              height={playButtonRadius}
             />
             <rect
-              fill="#ffffff"
-              x={playButtonRadius / 3 - playButtonRadius / 4}
+              className={styles.PlayButton__pause}
+              fill={fillColor}
+              height={playButtonRadius}
               rx={playButtonRadius / 12}
               width={playButtonRadius / 3}
+              x={playButtonRadius / 3 - playButtonRadius / 4}
               y={(-1 * playButtonRadius) / 2}
-              height={playButtonRadius}
             />
           </>
         ) : (
           <polygon
+            className={styles.PlayButton__play}
+            fill={fillColor}
             points={playButton}
-            fill="#ffffff"
-            stroke="#ffffff"
+            stroke={fillColor}
             strokeWidth={playButtonRadius / 8}
-            strokeLinejoin="round"
           />
         )}
-        <circle r={playButtonRadius} fill="transparent" stroke="#ffffff" strokeOpacity={0.5} />
+        <circle className={styles.PlayButton__radius} r={playButtonRadius} stroke={fillColor} />
       </g>
     </a>
   )

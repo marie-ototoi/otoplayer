@@ -7,18 +7,22 @@ import { initTracks } from '../utils/tracks'
 import usePlayer from '../hooks/usePlayer'
 import type { TrackDataInput, TrackData } from '../types/tracks'
 interface Props {
-  background?: string
+  backgroundColor?: string
   cover?: string
+  fillColor?: string
   playButtonRadius?: number
   side?: number
+  textColor?: string
   tracks: TrackDataInput[]
 }
 
 const Player: FC<Props> = ({
-  background = '#ffffff',
+  backgroundColor = '#fff',
   cover,
+  fillColor,
   playButtonRadius = 25,
   side = 400,
+  textColor = '#333',
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks))
@@ -30,7 +34,13 @@ const Player: FC<Props> = ({
   }, [tracks])
 
   return (
-    <div className={styles.Player} style={{ width: side + 'px', background }}>
+    <div
+      className={styles.Player}
+      style={{
+        width: side + 'px',
+        backgroundColor,
+      }}
+    >
       <svg
         data-testid="player"
         xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +50,7 @@ const Player: FC<Props> = ({
       >
         {cover && <Cover side={side} cover={cover} />}
         <PlayButton
+          fillColor={fillColor ?? backgroundColor}
           isPlaying={isPlaying}
           playButtonRadius={playButtonRadius}
           setTrack={setTrack}
@@ -47,18 +58,20 @@ const Player: FC<Props> = ({
         />
         {tracksData.map((track, index) => (
           <Track
-            key={`svg-track-${index}`}
             currentTrack={currentTrack}
+            fillColor={fillColor ?? backgroundColor}
+            hoverTrack={hoverTrack}
             hoveredTrack={hoveredTrack}
             isPlaying={isPlaying}
-            tracksLength={tracks.length}
+            key={`svg-track-${index}`}
             nextTrack={nextTrack}
             playButtonRadius={playButtonRadius}
-            hoverTrack={hoverTrack}
             setTrack={setTrack}
             side={side}
+            textColor={textColor}
             total={tracksData[tracksData.length - 1].end}
             track={track}
+            tracksLength={tracks.length}
           />
         ))}
       </svg>

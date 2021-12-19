@@ -5,12 +5,10 @@
 .Track__limit {
   fill: none;
   fill-opacity: 0;
-  stroke: white;
 }
 
 .Track__played {
   fill: none;
-  stroke: white;
   transform: rotate(180deg);
   stroke-linecap: round;
   transition: stroke-dashoffset 1s;
@@ -20,7 +18,6 @@
 .Track__transparent {
   fill: none;
   cursor: pointer;
-  stroke: white;
   stroke-opacity: 0;
 }
 
@@ -40,13 +37,11 @@
 .Track__infos__title {
   font-size: 0.8em;
   font-weight: normal;
-  color: #666;
   margin: 0;
   padding: 0;
 }
 .Track__infos__time {
   font-size: 0.8em;
-  color: #666;
   margin: 0;
   padding: 0;
 }

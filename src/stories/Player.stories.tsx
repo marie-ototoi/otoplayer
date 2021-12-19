@@ -55,11 +55,20 @@ export default {
   title: 'Player',
   component: Player,
   argTypes: {
+    backgroundColor: {
+      control: { type: 'text' },
+    },
     cover: {
+      control: { type: 'text' },
+    },
+    fillColor: {
       control: { type: 'text' },
     },
     side: {
       control: { type: 'number' },
+    },
+    textColor: {
+      control: { type: 'text' },
     },
   },
 } as ComponentMeta<typeof Player>
