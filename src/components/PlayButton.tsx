@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styles from './PlayButton.module.css'
 
 interface Props {
@@ -8,11 +8,14 @@ interface Props {
   side: number
 }
 const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
-  const [playButton] = useState(
-    `${-1 * (playButtonRadius / 4)},${-1 * (playButtonRadius / 2)} ${
-      (2 * playButtonRadius) / 4
-    },${0} ${-1 * (playButtonRadius / 4)},${playButtonRadius / 2}`
-  )
+  const [playButton, setPlayButton] = useState(``)
+  useEffect(() => {
+    setPlayButton(
+      `${-1 * (playButtonRadius / 4)},${-1 * (playButtonRadius / 2)} ${
+        (2 * playButtonRadius) / 4
+      },${0} ${-1 * (playButtonRadius / 4)},${playButtonRadius / 2}`
+    )
+  }, [playButtonRadius])
   return (
     <a
       href="#otoplayer"
@@ -33,17 +36,17 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
           <>
             <rect
               fill="#ffffff"
-              x={-playButtonRadius / 3 - 3}
-              rx={2}
-              width={8}
+              x={-playButtonRadius / 3 - playButtonRadius / 8}
+              rx={playButtonRadius / 12}
+              width={playButtonRadius / 3}
               y={(-1 * playButtonRadius) / 2}
               height={playButtonRadius}
             />
             <rect
               fill="#ffffff"
-              x={playButtonRadius / 3 - 6}
-              rx={2}
-              width={8}
+              x={playButtonRadius / 3 - playButtonRadius / 4}
+              rx={playButtonRadius / 12}
+              width={playButtonRadius / 3}
               y={(-1 * playButtonRadius) / 2}
               height={playButtonRadius}
             />
@@ -53,7 +56,7 @@ const Cover: FC<Props> = ({ isPlaying, playButtonRadius, setTrack, side }) => {
             points={playButton}
             fill="#ffffff"
             stroke="#ffffff"
-            strokeWidth="3"
+            strokeWidth={playButtonRadius / 8}
             strokeLinejoin="round"
           />
         )}
