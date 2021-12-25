@@ -5,7 +5,11 @@ type UseTrackControls = [number, boolean, () => void, () => void]
 const useTrack = (position: number, url: string, nextTrack: () => void): UseTrackControls => {
   const [progress, setProgress] = useState<number>(position)
   const [trackIsPlaying, setTrackIsPlaying] = useState<boolean>(false)
-  const audioRef = useRef(new Audio(url))
+  const audioRef = useRef<HTMLAudioElement>()
+
+  useEffect(() => {
+    audioRef.current = new Audio(url)
+  }, [])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -24,7 +28,7 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
 
   const playTrack = (): void => {
     audioRef.current
-      .play()
+      ?.play()
       .then(function () {
         setTrackIsPlaying(true)
       })
@@ -34,7 +38,7 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
   }
 
   const pauseTrack = (): void => {
-    audioRef.current.pause()
+    audioRef.current?.pause()
     setTrackIsPlaying(false)
   }
 
