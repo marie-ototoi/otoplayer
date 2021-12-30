@@ -9,7 +9,7 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
 
   useEffect(() => {
     audioRef.current = new Audio(url)
-  }, [])
+  }, [url])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -22,6 +22,7 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
       return () => {
         ref.removeEventListener('timeupdate', updateProgress)
         ref.removeEventListener('ended', updateProgress)
+        ref.pause()
       }
     }
   }, [audioRef, nextTrack])
