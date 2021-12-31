@@ -6,7 +6,7 @@ import Track from './Track'
 import { initTracks } from '../utils/tracks'
 import usePlayer from '../hooks/usePlayer'
 import type { TrackDataInput, TrackData } from '../types/tracks'
-interface Props {
+export interface PlayerProps {
   backgroundColor?: string
   cover?: string
   fillColor?: string
@@ -16,7 +16,7 @@ interface Props {
   tracks: TrackDataInput[]
 }
 
-const Player: FC<Props> = ({
+const Player: FC<PlayerProps> = ({
   backgroundColor = '#fff',
   cover,
   fillColor,
@@ -26,6 +26,7 @@ const Player: FC<Props> = ({
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks))
+  // @ts-ignore
   const [currentTrack, hoveredTrack, isPlaying, setTrack, nextTrack, previousTrack, hoverTrack] =
     usePlayer(0, tracks.length)
 

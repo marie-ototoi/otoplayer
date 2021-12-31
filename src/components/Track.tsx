@@ -54,8 +54,8 @@ const Track: FC<Props> = ({
         playButtonRadius + ((start + (end - start) / 2) * (side / 2 - playButtonRadius)) / total,
     }
   }, [playButtonRadius, end, start, total, side])
-  const middlePath = useMemo(() => getRingPath(radius.middle, side), [radius, side])
-  const endPath = useMemo(() => getRingPath(radius.end, side), [radius, side])
+  const middlePath = useMemo(() => getRingPath(radius.middle), [radius])
+  const endPath = useMemo(() => getRingPath(radius.end), [radius])
 
   const circumference = Math.PI * radius.middle * 2
   const rotation = (index * 360) / tracksLength

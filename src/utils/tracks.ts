@@ -14,7 +14,7 @@ export const initTracks = (tracks: TrackDataInput[]): TrackData[] => {
   }, [])
 }
 
-export const getRingPath = (radius: number, side: number): string => {
+export const getRingPath = (radius: number): string => {
   return `m ${-radius}, 0
   A ${radius},${radius} 0 0,1 ${radius}, ${0}
   A ${radius},${radius} 0 1,1 ${-radius}, ${0}

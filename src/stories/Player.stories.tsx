@@ -1,7 +1,7 @@
 import React from 'react'
-import { ComponentMeta } from '@storybook/react'
+import { ComponentMeta, Story } from '@storybook/react'
 
-import { Player } from '../'
+import { Player, PlayerProps } from '../'
 
 const tracks = [
   {
@@ -73,14 +73,16 @@ export default {
   },
 } as ComponentMeta<typeof Player>
 
-const Template = args => {
+const Template: Story<PlayerProps> = (args): any => {
   return <Player {...args} />
 }
 
 const WithCover = Template.bind({})
+
 WithCover.args = {
   cover: '/a_71/cover/cover_71.jpg',
   side: 400,
   tracks,
 }
+
 export { WithCover }
