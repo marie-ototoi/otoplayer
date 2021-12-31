@@ -1,10 +1,8 @@
-# Otoplayer
+# Ototoï music player
 
 This is a music player I originally codesigned with Gregory Pignot in 2008 for the website ototoïmusic.
 
-The album included in this repo is on the excellent music label Staubgold, if you like it you can buy it on <a href="https://staubgold.bandcamp.com/album/la-double-absence">bandcamp</a>.
-
-More examples are available on <a href="https://www.ototoi.fr/otoplayer">otoplayer demo webpage</a>.
+Examples are available on <a href="https://www.ototoi.fr/otoplayer">ototoï music player demo webpage</a>.
 
 ## Available Scripts
 
@@ -12,11 +10,10 @@ In the project directory, you can run:
 
 ### `yarn storybook`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the storybook.\
+Open [http://localhost:6006](http://localhost:6006) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The page will reload if you make edits.
 
 ### `yarn test`
 
@@ -25,16 +22,16 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for publication to the `lib` folder.
 
 ## Contribute
 
+Contributions are very welcome.
+
 ### Report an issue
 
+[https://github.com/marie-ototoi/otoplayer/pulls](https://github.com/marie-ototoi/otoplayer/pulls)
+
 ### Make a pull request
+
+You can fork the directory, create a branch and send a pull request.
