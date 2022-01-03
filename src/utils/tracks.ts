@@ -31,3 +31,18 @@ export const formatDuration = (duration: number): string => {
   if (date.getHours() > 0) options.hour = 'numeric'
   return new Intl.DateTimeFormat('fr-FR', options).format(date)
 }
+
+const rules = new Intl.PluralRules('en-US', {
+  type: 'ordinal',
+})
+const suffixes = new Map([
+  ['one', 'st'],
+  ['two', 'nd'],
+  ['few', 'rd'],
+  ['other', 'th'],
+])
+export const formatOrdinal = (n: number) => {
+  const rule = rules.select(n)
+  const suffix = suffixes.get(rule)
+  return `${n}${suffix}`
+}

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react'
 import useTrack from '../hooks/useTrack'
-import { formatDuration, getRingPath } from '../utils/tracks'
+import { formatDuration, formatOrdinal, getRingPath } from '../utils/tracks'
 import styles from './Track.module.css'
 import type { TrackData } from '../types/tracks'
 
@@ -83,7 +83,7 @@ const Track: FC<Props> = ({
           hoverTrack(null)
         }}
         className={styles.Track}
-        title={`${trackIsPlaying ? 'Pause' : 'Play'} track ${index + 1} ${title}`}
+        title={`${trackIsPlaying ? 'Pause' : 'Play'} ${formatOrdinal(index + 1)} track: ${title}`}
         role="button"
       >
         <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>

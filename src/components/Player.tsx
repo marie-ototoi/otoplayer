@@ -51,6 +51,7 @@ const Player: FC<PlayerProps> = ({
       >
         {cover && <Cover side={side} cover={cover} />}
         <PlayButton
+          currentTrack={currentTrack}
           fillColor={fillColor ?? backgroundColor}
           isPlaying={isPlaying}
           playButtonRadius={playButtonRadius}

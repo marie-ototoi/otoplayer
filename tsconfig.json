@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "node",
@@ -13,7 +13,25 @@
     "declaration": true,
     "declarationDir": ".",
     "rootDir": "./src",
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "exclude": ["lib", "src/stories", "**/__tests__", "**/*.test.js"]
+  "exclude": [
+    "lib",
+    "src/stories",
+    "**/__tests__",
+    "**/*.test.js"
+  ],
+  "include": [
+    "src"
+  ]
 }

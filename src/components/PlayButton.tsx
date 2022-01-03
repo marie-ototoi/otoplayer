@@ -1,14 +1,23 @@
 import React, { FC, useEffect, useState } from 'react'
+import { formatOrdinal } from '../utils/tracks'
 import styles from './PlayButton.module.css'
 
 interface Props {
+  currentTrack: number
   fillColor: string
   isPlaying: boolean
   playButtonRadius: number
   setTrack: (index?: number, play?: boolean) => void
   side: number
 }
-const Cover: FC<Props> = ({ fillColor, isPlaying, playButtonRadius, setTrack, side }) => {
+const Cover: FC<Props> = ({
+  currentTrack,
+  fillColor,
+  isPlaying,
+  playButtonRadius,
+  setTrack,
+  side,
+}) => {
   const [playButton, setPlayButton] = useState(``)
   useEffect(() => {
     setPlayButton(
@@ -22,7 +31,7 @@ const Cover: FC<Props> = ({ fillColor, isPlaying, playButtonRadius, setTrack, si
       href="#otoplayer"
       onClick={() => setTrack(undefined, !isPlaying)}
       className={styles.PlayButton}
-      title={`${isPlaying ? 'Pause' : 'Play'} current track`}
+      title={`${isPlaying ? 'Pause' : 'Play'} ${formatOrdinal(currentTrack + 1)} track`}
       role="button"
     >
       <g transform={`translate(${side / 2},${side / 2})`}>
