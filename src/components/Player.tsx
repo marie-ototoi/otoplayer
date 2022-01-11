@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styles from './Player.module.css'
 import Cover from './Cover'
 import PlayButton from './PlayButton'
@@ -11,7 +11,6 @@ export interface PlayerProps {
   cover?: string
   fillColor?: string
   playButtonRadius?: number
-  side?: number
   textColor?: string
   tracks: TrackDataInput[]
 }
@@ -21,11 +20,12 @@ const Player: FC<PlayerProps> = ({
   cover,
   fillColor,
   playButtonRadius = 25,
-  side = 400,
   textColor = '#333',
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks))
+  const [side, setSide] = useState<number>(1)
+  const playerRef = useRef<HTMLDivElement>(null)
   // @ts-ignore
   const [currentTrack, hoveredTrack, isPlaying, setTrack, nextTrack, previousTrack, hoverTrack] =
     usePlayer(0, tracks.length)
@@ -34,13 +34,26 @@ const Player: FC<PlayerProps> = ({
     setTracksData(initTracks(tracks))
   }, [tracks])
 
+  useEffect(() => {
+    if (playerRef.current) setSide(playerRef.current.clientWidth)
+  }, [playerRef])
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      if (playerRef.current) setSide(playerRef.current.clientWidth)
+    }
+    window.addEventListener('resize', updateSize)
+    updateSize()
+    return () => window.removeEventListener('resize', updateSize)
+  }, [playerRef])
+
   return (
     <div
       className={styles.Player}
       style={{
-        width: side + 'px',
         backgroundColor,
       }}
+      ref={playerRef}
     >
       <svg
         data-testid="player"

@@ -74,14 +74,17 @@ export default {
 } as ComponentMeta<typeof Player>
 
 const Template: Story<PlayerProps> = (args): any => {
-  return <Player {...args} />
+  return (
+    <div style={{ width: '400px' }}>
+      <Player {...args} />
+    </div>
+  )
 }
 
 const WithCover = Template.bind({})
 
 WithCover.args = {
   cover: '/a_71/cover/cover_71.jpg',
-  side: 400,
   tracks,
 }
 
