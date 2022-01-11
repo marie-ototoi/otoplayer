@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import styles from './Player.module.css'
 import Cover from './Cover'
 import PlayButton from './PlayButton'
@@ -38,7 +38,7 @@ const Player: FC<PlayerProps> = ({
     if (playerRef.current) setSide(playerRef.current.clientWidth)
   }, [playerRef])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     function updateSize() {
       if (playerRef.current) setSide(playerRef.current.clientWidth)
     }
