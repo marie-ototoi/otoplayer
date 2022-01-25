@@ -1,4 +1,4 @@
-import type { TrackDataInput, TrackData } from '../types/tracks'
+import type { Point, TrackDataInput, TrackData } from '../types/tracks'
 
 export const initTracks = (tracks: TrackDataInput[]): TrackData[] => {
   return tracks.reduce((acc: TrackData[], cur: TrackDataInput, index: number) => {
@@ -19,6 +19,11 @@ export const getRingPath = (radius: number): string => {
   A ${radius},${radius} 0 0,1 ${radius}, ${0}
   A ${radius},${radius} 0 1,1 ${-radius}, ${0}
   `
+}
+
+export const getAngle = (point: Point, center: Point, rotation: number = 0): number => {
+  const angle = Math.atan2(point.y - center.y, point.x - center.x) * (180 / Math.PI) - rotation
+  return angle < 0 ? angle + 360 : angle
 }
 
 export const formatDuration = (duration: number): string => {
@@ -45,4 +50,18 @@ export const formatOrdinal = (n: number) => {
   const rule = rules.select(n)
   const suffix = suffixes.get(rule)
   return `${n}${suffix}`
+}
+
+export const throttle = (func: Function, timeout: number) => {
+  let ready: boolean = true
+  return (...args: any) => {
+    if (!ready) {
+      return
+    }
+    ready = false
+    func(...args)
+    setTimeout(() => {
+      ready = true
+    }, timeout)
+  }
 }

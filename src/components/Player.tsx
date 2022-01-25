@@ -5,7 +5,9 @@ import PlayButton from './PlayButton'
 import Track from './Track'
 import { initTracks } from '../utils/tracks'
 import usePlayer from '../hooks/usePlayer'
+import type { Coords } from '../types/player'
 import type { TrackDataInput, TrackData } from '../types/tracks'
+
 export interface PlayerProps {
   backgroundColor?: string
   cover?: string
@@ -24,7 +26,7 @@ const Player: FC<PlayerProps> = ({
   tracks,
 }) => {
   const [tracksData, setTracksData] = useState<TrackData[]>(initTracks(tracks))
-  const [side, setSide] = useState<number>(1)
+  const [coords, setCoords] = useState<Coords>()
   const playerRef = useRef<HTMLDivElement>(null)
   // @ts-ignore
   const [currentTrack, hoveredTrack, isPlaying, setTrack, nextTrack, previousTrack, hoverTrack] =
@@ -35,12 +37,26 @@ const Player: FC<PlayerProps> = ({
   }, [tracks])
 
   useEffect(() => {
-    if (playerRef.current) setSide(playerRef.current.clientWidth)
+    if (playerRef.current) {
+      const box = playerRef.current.getBoundingClientRect()
+      setCoords({
+        side: playerRef.current.clientWidth,
+        x: box.x,
+        y: box.y,
+      })
+    }
   }, [playerRef])
 
   useEffect(() => {
     function updateSize() {
-      if (playerRef.current) setSide(playerRef.current.clientWidth)
+      if (playerRef.current) {
+        const box = playerRef.current.getBoundingClientRect()
+        setCoords({
+          side: playerRef.current.clientWidth,
+          x: box.x,
+          y: box.y,
+        })
+      }
     }
     window.addEventListener('resize', updateSize)
     updateSize()
@@ -55,41 +71,43 @@ const Player: FC<PlayerProps> = ({
       }}
       ref={playerRef}
     >
-      <svg
-        data-testid="player"
-        xmlns="http://www.w3.org/2000/svg"
-        width={side}
-        height={side + 100}
-        focusable="false"
-      >
-        {cover && <Cover side={side} cover={cover} />}
-        <PlayButton
-          currentTrack={currentTrack}
-          fillColor={fillColor ?? backgroundColor}
-          isPlaying={isPlaying}
-          playButtonRadius={playButtonRadius}
-          setTrack={setTrack}
-          side={side}
-        />
-        {tracksData.map((track, index) => (
-          <Track
+      {coords && (
+        <svg
+          data-testid="player"
+          xmlns="http://www.w3.org/2000/svg"
+          width={coords.side}
+          height={coords.side + 100}
+          focusable="false"
+        >
+          {cover && <Cover side={coords.side} cover={cover} />}
+          <PlayButton
             currentTrack={currentTrack}
             fillColor={fillColor ?? backgroundColor}
-            hoverTrack={hoverTrack}
-            hoveredTrack={hoveredTrack}
             isPlaying={isPlaying}
-            key={`svg-track-${index}`}
-            nextTrack={nextTrack}
             playButtonRadius={playButtonRadius}
             setTrack={setTrack}
-            side={side}
-            textColor={textColor}
-            total={tracksData[tracksData.length - 1].end}
-            track={track}
-            tracksLength={tracks.length}
+            side={coords.side}
           />
-        ))}
-      </svg>
+          {tracksData.map((track, index) => (
+            <Track
+              currentTrack={currentTrack}
+              fillColor={fillColor ?? backgroundColor}
+              hoverTrack={hoverTrack}
+              hoveredTrack={hoveredTrack}
+              isPlaying={isPlaying}
+              key={`svg-track-${index}`}
+              nextTrack={nextTrack}
+              playButtonRadius={playButtonRadius}
+              setTrack={setTrack}
+              coords={coords}
+              textColor={textColor}
+              total={tracksData[tracksData.length - 1].end}
+              track={track}
+              tracksLength={tracks.length}
+            />
+          ))}
+        </svg>
+      )}
     </div>
   )
 }

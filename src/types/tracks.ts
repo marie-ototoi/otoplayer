@@ -1,3 +1,7 @@
+export interface Point {
+  x: number
+  y: number
+}
 export interface TrackDataInput {
   title?: string
   duration: number

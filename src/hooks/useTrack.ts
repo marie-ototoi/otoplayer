@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { throttle } from '../utils/tracks'
 
-type UseTrackControls = [number, boolean, () => void, () => void]
+type UseTrackControls = [number, boolean, (position?: number) => void, () => void]
 
 const useTrack = (position: number, url: string, nextTrack: () => void): UseTrackControls => {
   const [progress, setProgress] = useState<number>(position)
@@ -17,17 +18,18 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
       const updateProgress = () => {
         setProgress(ref.currentTime)
       }
-      ref.addEventListener('timeupdate', updateProgress)
+      ref.addEventListener('timeupdate', throttle(updateProgress, 1000))
       ref.addEventListener('ended', nextTrack)
       return () => {
-        ref.removeEventListener('timeupdate', updateProgress)
-        ref.removeEventListener('ended', updateProgress)
+        ref.removeEventListener('timeupdate', throttle(updateProgress, 1000))
+        ref.removeEventListener('ended', nextTrack)
         ref.pause()
       }
     }
   }, [audioRef, nextTrack])
 
-  const playTrack = (): void => {
+  const playTrack = (position?: number): void => {
+    if (position && audioRef.current) audioRef.current.currentTime = position
     audioRef.current
       ?.play()
       .then(function () {
@@ -39,7 +41,7 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
   }
 
   const pauseTrack = (): void => {
-    audioRef.current?.pause()
+    if (!audioRef.current?.paused) audioRef.current?.pause()
     setTrackIsPlaying(false)
   }
 

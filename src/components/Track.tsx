@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useMemo } from 'react'
+import React, { FC, MouseEvent, useEffect, useMemo, useState } from 'react'
 import useTrack from '../hooks/useTrack'
-import { formatDuration, formatOrdinal, getRingPath } from '../utils/tracks'
+import { formatDuration, formatOrdinal, getAngle, getRingPath, throttle } from '../utils/tracks'
 import styles from './Track.module.css'
+import type { Coords } from '../types/player'
 import type { TrackData } from '../types/tracks'
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
   nextTrack: () => void
   playButtonRadius: number
   setTrack: (index: number, play: boolean) => void
-  side: number
+  coords: Coords
   textColor: string
   total: number
   track: TrackData
@@ -28,7 +29,7 @@ const Track: FC<Props> = ({
   nextTrack,
   playButtonRadius,
   setTrack,
-  side,
+  coords,
   textColor,
   total,
   track,
@@ -45,31 +46,67 @@ const Track: FC<Props> = ({
     }
   }, [currentTrack, index, isPlaying, play, pause])
 
-  const offset = side / 2
+  const offset = coords.side / 2
   const radius = useMemo(() => {
     return {
-      start: playButtonRadius + (start * (side / 2 - playButtonRadius)) / total,
-      end: playButtonRadius + (end * (side / 2 - playButtonRadius)) / total,
+      start: playButtonRadius + (start * (offset - playButtonRadius)) / total,
+      end: playButtonRadius + (end * (offset - playButtonRadius)) / total,
       middle:
-        playButtonRadius + ((start + (end - start) / 2) * (side / 2 - playButtonRadius)) / total,
+        playButtonRadius + ((start + (end - start) / 2) * (offset - playButtonRadius)) / total,
     }
-  }, [playButtonRadius, end, start, total, side])
+  }, [playButtonRadius, end, start, total, offset])
+  const startPath = useMemo(() => getRingPath(radius.start), [radius])
   const middlePath = useMemo(() => getRingPath(radius.middle), [radius])
   const endPath = useMemo(() => getRingPath(radius.end), [radius])
-
-  const circumference = Math.PI * radius.middle * 2
-  const rotation = (index * 360) / tracksLength
-
-  const strokeOffset = circumference - (progress * circumference) / duration
+  const circumference = useMemo(() => Math.PI * radius.middle * 2, [radius.middle])
+  const rotation = useMemo(() => (index * 360) / tracksLength, [index, tracksLength])
+  // console.log(rotation, index)
+  const playedOffset = useMemo(
+    () => circumference - (progress * circumference) / duration,
+    [progress, circumference, duration]
+  )
   const formattedDuration = useMemo(() => formatDuration(duration), [duration])
+
+  const [isDragging, setIsDragging] = useState<boolean>(false)
+  const [draggedPosition, setDraggedPosition] = useState<number>(position)
+
+  const handleDragTrack = (e: MouseEvent) => {
+    if (isDragging)
+      setDraggedPosition(
+        (getAngle(
+          { x: e.clientX - coords.x, y: e.clientY - coords.y },
+          { x: offset, y: offset },
+          rotation
+        ) *
+          duration) /
+          360
+      )
+  }
+  const draggedOffset = useMemo(
+    () => circumference - (draggedPosition * circumference) / duration,
+    [draggedPosition, circumference, duration]
+  )
   return (
     <>
       <a
         href="#otoplayer"
-        onClick={e => {
-          setTrack(index, !trackIsPlaying)
+        onMouseUp={e => {
+          if (draggedPosition - position > 1) {
+            play(draggedPosition)
+            setTrack(index, true)
+          } else {
+            setTrack(index, !trackIsPlaying)
+          }
+          console.log(e)
+          setIsDragging(false)
           e.preventDefault()
         }}
+        onMouseDown={e => {
+          setIsDragging(true)
+          setDraggedPosition(position)
+          e.preventDefault()
+        }}
+        onMouseMove={throttle(handleDragTrack, 100)}
         onFocus={() => {
           hoverTrack(index)
         }}
@@ -78,8 +115,10 @@ const Track: FC<Props> = ({
         }}
         onMouseEnter={() => {
           hoverTrack(index)
+          setIsDragging(true)
         }}
         onMouseLeave={() => {
+          setIsDragging(false)
           hoverTrack(null)
         }}
         className={styles.Track}
@@ -88,18 +127,22 @@ const Track: FC<Props> = ({
       >
         <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>
           <path
-            d={endPath}
-            className={styles.Track__limit}
-            stroke={fillColor}
-            strokeOpacity={0.5}
-          />
-          <path
             d={middlePath}
             className={styles.Track__played}
             stroke={fillColor}
             strokeWidth={radius.end - radius.start}
             strokeDasharray={circumference}
-            strokeDashoffset={strokeOffset}
+            strokeDashoffset={playedOffset}
+            strokeOpacity={isDragging ? 0.5 : 0.95}
+          />
+          <path
+            d={middlePath}
+            className={styles.Track__dragged}
+            stroke={fillColor}
+            strokeWidth={radius.end - radius.start}
+            strokeDasharray={circumference}
+            strokeDashoffset={isDragging && currentTrack === index ? draggedOffset : playedOffset}
+            strokeOpacity={0.5}
           />
           <path
             d={middlePath}
@@ -109,10 +152,22 @@ const Track: FC<Props> = ({
             strokeDasharray={circumference}
             strokeDashoffset={0}
           />
+          <path
+            d={endPath}
+            className={styles.Track__limit}
+            stroke={fillColor}
+            strokeOpacity={0.2}
+          />
+          <path
+            d={startPath}
+            className={styles.Track__limit}
+            stroke={fillColor}
+            strokeOpacity={0}
+          />
         </g>
       </a>
       {(hoveredTrack === index || (hoveredTrack === null && currentTrack === index)) && (
-        <foreignObject x={0} y={side} width={side} height={100}>
+        <foreignObject x={0} y={coords.side} width={coords.side} height={100}>
           <div className={styles.Track__infos}>
             <h2
               className={styles.Track__infos__title}

@@ -5,13 +5,22 @@
 .Track__limit {
   fill: none;
   fill-opacity: 0;
+  stroke-width: 2px;
 }
 
 .Track__played {
   fill: none;
   transform: rotate(180deg);
   stroke-linecap: round;
-  transition: stroke-dashoffset 1s;
+  transition: stroke-dashoffset 0.1s;
+  cursor: pointer;
+}
+
+.Track__dragged {
+  fill: none;
+  transform: rotate(180deg);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s;
   cursor: pointer;
 }
 
@@ -20,10 +29,13 @@
   cursor: pointer;
   stroke-opacity: 0;
 }
-
-.Track:focus .Track__transparent,
-.Track:hover .Track__transparent {
-  stroke-opacity: 0.4;
+.Track:focus .Track__limit {
+  stroke: rgb(0, 95, 204);
+  stroke-opacity: 1;
+}
+.Track:focus .Track__limit,
+.Track:hover .Track__limit {
+  stroke-opacity: 0.5;
 }
 .Track__infos {
   display: flex;

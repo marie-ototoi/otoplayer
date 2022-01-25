@@ -1,4 +1,4 @@
-import { formatDuration, formatOrdinal, initTracks } from '../tracks'
+import { formatDuration, formatOrdinal, getAngle, initTracks } from '../tracks'
 
 describe('Track utils', () => {
   describe('Init tracks', () => {
@@ -74,6 +74,32 @@ describe('Track utils', () => {
       expect(formatOrdinal(11)).toEqual('11th')
       expect(formatOrdinal(12)).toEqual('12th')
       expect(formatOrdinal(13)).toEqual('13th')
+    })
+  })
+  describe('Get angle for a point on a circle', () => {
+    test('should return the angle when the center is 0,0', () => {
+      expect(getAngle({ x: 10, y: 0 }, { x: 0, y: 0 })).toEqual(0)
+      expect(getAngle({ x: 10, y: 10 }, { x: 0, y: 0 })).toEqual(45)
+      expect(getAngle({ x: 0, y: 10 }, { x: 0, y: 0 })).toEqual(90)
+      expect(getAngle({ x: -10, y: 10 }, { x: 0, y: 0 })).toEqual(135)
+      expect(getAngle({ x: -10, y: 0 }, { x: 0, y: 0 })).toEqual(180)
+      expect(getAngle({ x: -10, y: -10 }, { x: 0, y: 0 })).toEqual(225)
+      expect(getAngle({ x: 0, y: -10 }, { x: 0, y: 0 })).toEqual(270)
+      expect(getAngle({ x: 10, y: -10 }, { x: 0, y: 0 })).toEqual(315)
+    })
+    test('should return the angle when the center is not 0,0', () => {
+      expect(getAngle({ x: 20, y: 10 }, { x: 10, y: 10 })).toEqual(0)
+      expect(getAngle({ x: 20, y: 20 }, { x: 10, y: 10 })).toEqual(45)
+      expect(getAngle({ x: 10, y: 20 }, { x: 10, y: 10 })).toEqual(90)
+      expect(getAngle({ x: 0, y: 20 }, { x: 10, y: 10 })).toEqual(135)
+      expect(getAngle({ x: 0, y: 10 }, { x: 10, y: 10 })).toEqual(180)
+      expect(getAngle({ x: 0, y: 0 }, { x: 10, y: 10 })).toEqual(225)
+      expect(getAngle({ x: 10, y: 0 }, { x: 10, y: 10 })).toEqual(270)
+      expect(getAngle({ x: 20, y: 0 }, { x: 10, y: 10 })).toEqual(315)
+    })
+    test('should return the angle less the rotation offset', () => {
+      expect(getAngle({ x: 20, y: 10 }, { x: 10, y: 10 }, 20)).toEqual(340)
+      expect(getAngle({ x: 20, y: 10 }, { x: 10, y: 10 }, 100)).toEqual(260)
     })
   })
 })

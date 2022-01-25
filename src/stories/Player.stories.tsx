@@ -75,7 +75,7 @@ export default {
 
 const Template: Story<PlayerProps> = (args): any => {
   return (
-    <div style={{ width: '400px' }}>
+    <div style={{ width: '400px', marginLeft: '200px' }}>
       <Player {...args} />
     </div>
   )
