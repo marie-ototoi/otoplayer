@@ -1,22 +1,26 @@
 import { useState } from 'react'
 
-type Props = [
-  number,
-  number | null,
-  boolean,
-  (trackIndex?: number, play?: boolean) => void,
-  () => number,
-  () => number,
-  (trackIndex: number | null) => void
-]
+type Props = {
+  currentTrack: number
+  hoveredTrack: number | null
+  selectedTrack: number | null
+  isPlaying: boolean
+  playTrack: (trackIndex?: number, play?: boolean) => void
+  nextTrack: () => number
+  previousTrack: () => number
+  hoverTrack: (trackIndex: number | null) => void
+  selectTrack: (trackIndex: number | null) => void
+}
 
 const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   const [currentTrack, setCurrentTrack] = useState<number>(trackIndex)
   const [hoveredTrack, setHoveredTrack] = useState<number | null>(null)
+  const [selectedTrack, setSelectedTrack] = useState<number | null>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
   const playTrack = (trackIndex: number = currentTrack, play: boolean = true): void => {
     setCurrentTrack(trackIndex)
+    setSelectedTrack(null)
     setIsPlaying(play)
   }
 
@@ -41,7 +45,22 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
       setHoveredTrack(trackIndex)
     }
   }
-  return [currentTrack, hoveredTrack, isPlaying, playTrack, nextTrack, previousTrack, hoverTrack]
+  const selectTrack = (trackIndex: number | null): void => {
+    if (selectedTrack !== trackIndex) {
+      setSelectedTrack(trackIndex)
+    }
+  }
+  return {
+    currentTrack,
+    hoveredTrack,
+    selectedTrack,
+    isPlaying,
+    playTrack,
+    nextTrack,
+    previousTrack,
+    hoverTrack,
+    selectTrack,
+  }
 }
 
 export default usePlayer

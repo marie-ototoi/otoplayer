@@ -29,8 +29,16 @@ const Player: FC<PlayerProps> = ({
   const [coords, setCoords] = useState<Coords>()
   const playerRef = useRef<HTMLDivElement>(null)
   // @ts-ignore
-  const [currentTrack, hoveredTrack, isPlaying, setTrack, nextTrack, previousTrack, hoverTrack] =
-    usePlayer(0, tracks.length)
+  const {
+    currentTrack,
+    hoveredTrack,
+    selectedTrack,
+    isPlaying,
+    playTrack,
+    nextTrack,
+    hoverTrack,
+    selectTrack,
+  } = usePlayer(0, tracks.length)
 
   useEffect(() => {
     setTracksData(initTracks(tracks))
@@ -45,9 +53,6 @@ const Player: FC<PlayerProps> = ({
         y: box.y,
       })
     }
-  }, [playerRef])
-
-  useEffect(() => {
     function updateSize() {
       if (playerRef.current) {
         const box = playerRef.current.getBoundingClientRect()
@@ -85,7 +90,7 @@ const Player: FC<PlayerProps> = ({
             fillColor={fillColor ?? backgroundColor}
             isPlaying={isPlaying}
             playButtonRadius={playButtonRadius}
-            setTrack={setTrack}
+            setTrack={playTrack}
             side={coords.side}
           />
           {tracksData.map((track, index) => (
@@ -98,7 +103,9 @@ const Player: FC<PlayerProps> = ({
               key={`svg-track-${index}`}
               nextTrack={nextTrack}
               playButtonRadius={playButtonRadius}
-              setTrack={setTrack}
+              setTrack={playTrack}
+              selectedTrack={selectedTrack}
+              selectTrack={selectTrack}
               coords={coords}
               textColor={textColor}
               total={tracksData[tracksData.length - 1].end}

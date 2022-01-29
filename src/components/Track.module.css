@@ -12,7 +12,7 @@
   fill: none;
   transform: rotate(180deg);
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.1s;
+  transition: stroke-dashoffset 0.1s, opacity 1s;
   cursor: pointer;
 }
 
@@ -20,7 +20,7 @@
   fill: none;
   transform: rotate(180deg);
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.1s;
+  transition: stroke-dashoffset 0.1s, opacity 1s;
   cursor: pointer;
 }
 

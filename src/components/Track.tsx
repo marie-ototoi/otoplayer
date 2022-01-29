@@ -10,6 +10,8 @@ interface Props {
   fillColor: string
   hoverTrack: (index: number | null) => void
   hoveredTrack: number | null
+  selectTrack: (index: number | null) => void
+  selectedTrack: number | null
   isPlaying: boolean
   nextTrack: () => void
   playButtonRadius: number
@@ -28,6 +30,8 @@ const Track: FC<Props> = ({
   isPlaying,
   nextTrack,
   playButtonRadius,
+  selectTrack,
+  selectedTrack,
   setTrack,
   coords,
   textColor,
@@ -45,7 +49,7 @@ const Track: FC<Props> = ({
       pause()
     }
   }, [currentTrack, index, isPlaying, play, pause])
-
+  const [timeMouseDown, setTimeMouseDown] = useState<number | null>(null)
   const offset = coords.side / 2
   const radius = useMemo(() => {
     return {
@@ -66,12 +70,10 @@ const Track: FC<Props> = ({
     [progress, circumference, duration]
   )
   const formattedDuration = useMemo(() => formatDuration(duration), [duration])
-
-  const [isDragging, setIsDragging] = useState<boolean>(false)
   const [draggedPosition, setDraggedPosition] = useState<number>(position)
 
   const handleDragTrack = (e: MouseEvent) => {
-    if (isDragging)
+    if (selectedTrack === index)
       setDraggedPosition(
         (getAngle(
           { x: e.clientX - coords.x, y: e.clientY - coords.y },
@@ -86,24 +88,30 @@ const Track: FC<Props> = ({
     () => circumference - (draggedPosition * circumference) / duration,
     [draggedPosition, circumference, duration]
   )
+  const isDragging = timeMouseDown && new Date().getTime() - timeMouseDown > 300
+
   return (
     <>
       <a
         href="#otoplayer"
         onMouseUp={e => {
-          if (draggedPosition - position > 1) {
-            play(draggedPosition)
-            setTrack(index, true)
+          if (selectedTrack === index) {
+            if (Math.abs(draggedPosition - position) > 1) {
+              play(draggedPosition)
+              setTrack(index, true)
+            } else {
+              setTrack(index, !trackIsPlaying)
+            }
+            setTimeMouseDown(null)
           } else {
-            setTrack(index, !trackIsPlaying)
+            selectTrack(null)
           }
-          console.log(e)
-          setIsDragging(false)
           e.preventDefault()
         }}
         onMouseDown={e => {
-          setIsDragging(true)
+          selectTrack(index)
           setDraggedPosition(position)
+          setTimeMouseDown(new Date().getTime())
           e.preventDefault()
         }}
         onMouseMove={throttle(handleDragTrack, 100)}
@@ -111,14 +119,6 @@ const Track: FC<Props> = ({
           hoverTrack(index)
         }}
         onBlur={() => {
-          hoverTrack(null)
-        }}
-        onMouseEnter={() => {
-          hoverTrack(index)
-          setIsDragging(true)
-        }}
-        onMouseLeave={() => {
-          setIsDragging(false)
           hoverTrack(null)
         }}
         className={styles.Track}
@@ -133,7 +133,7 @@ const Track: FC<Props> = ({
             strokeWidth={radius.end - radius.start}
             strokeDasharray={circumference}
             strokeDashoffset={playedOffset}
-            strokeOpacity={isDragging ? 0.5 : 0.95}
+            strokeOpacity={isDragging && selectedTrack === index ? 0.5 : 0.95}
           />
           <path
             d={middlePath}
@@ -141,7 +141,7 @@ const Track: FC<Props> = ({
             stroke={fillColor}
             strokeWidth={radius.end - radius.start}
             strokeDasharray={circumference}
-            strokeDashoffset={isDragging && currentTrack === index ? draggedOffset : playedOffset}
+            strokeDashoffset={isDragging && selectedTrack === index ? draggedOffset : playedOffset}
             strokeOpacity={0.5}
           />
           <path
@@ -179,8 +179,12 @@ const Track: FC<Props> = ({
               {title}
             </h2>
             <p className={styles.Track__infos__time} style={{ color: textColor }}>
-              <time title="time elapsed">{formatDuration(progress)}</time>/
-              <time title="total time">{formattedDuration}</time>
+              <time title="time elapsed">
+                {isDragging && selectedTrack === index
+                  ? formatDuration(draggedPosition)
+                  : formatDuration(progress)}
+              </time>
+              /<time title="total time">{formattedDuration}</time>
             </p>
           </div>
         </foreignObject>
