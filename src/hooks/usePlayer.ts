@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 type Props = {
   currentTrack: number
@@ -19,18 +19,21 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
   const playTrack = (trackIndex: number = currentTrack, play: boolean = true): void => {
-    setCurrentTrack(trackIndex)
-    setSelectedTrack(null)
-    setIsPlaying(play)
+    if (!(trackIndex === currentTrack && play === isPlaying)) {
+      setCurrentTrack(trackIndex)
+      setSelectedTrack(null)
+      setIsPlaying(play)
+      console.log('play', trackIndex, play)
+    }
   }
 
-  const nextTrack = (): number => {
+  const nextTrack = useCallback((): number => {
     if (trackIndex < lastIndex - 1) {
       setCurrentTrack(trackIndex + 1)
       return trackIndex + 1
     }
     return trackIndex
-  }
+  }, [trackIndex, lastIndex])
 
   const previousTrack = (): number => {
     if (trackIndex > 0) {
@@ -41,7 +44,9 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   }
 
   const hoverTrack = (trackIndex: number | null): void => {
+    console.log(hoveredTrack, trackIndex)
     if (hoveredTrack !== trackIndex) {
+      console.log('ok set', trackIndex)
       setHoveredTrack(trackIndex)
     }
   }

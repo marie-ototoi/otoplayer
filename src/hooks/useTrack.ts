@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { throttle } from '../utils/tracks'
 
-type UseTrackControls = [number, boolean, (position?: number) => void, () => void]
+type UseTrackControls = [
+  number,
+  'init' | 'playing' | 'paused' | 'ended',
+  (position?: number) => void,
+  () => void
+]
 
-const useTrack = (position: number, url: string, nextTrack: () => void): UseTrackControls => {
+const useTrack = (position: number, url: string): UseTrackControls => {
   const [progress, setProgress] = useState<number>(position)
-  const [trackIsPlaying, setTrackIsPlaying] = useState<boolean>(false)
+  const [trackStatus, setTrackStatus] = useState<'init' | 'playing' | 'paused' | 'ended'>('init')
   const audioRef = useRef<HTMLAudioElement>()
 
   useEffect(() => {
@@ -19,21 +24,21 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
         setProgress(ref.currentTime)
       }
       ref.addEventListener('timeupdate', throttle(updateProgress, 1000))
-      ref.addEventListener('ended', nextTrack)
+      ref.addEventListener('ended', () => setTrackStatus('ended'))
       return () => {
         ref.removeEventListener('timeupdate', throttle(updateProgress, 1000))
-        ref.removeEventListener('ended', nextTrack)
+        ref.removeEventListener('ended', () => setTrackStatus('ended'))
         ref.pause()
       }
     }
-  }, [audioRef, nextTrack])
+  }, [audioRef])
 
   const playTrack = (position?: number): void => {
     if (position && audioRef.current) audioRef.current.currentTime = position
     audioRef.current
       ?.play()
       .then(function () {
-        setTrackIsPlaying(true)
+        setTrackStatus('playing')
       })
       .catch(function (error) {
         console.log(error)
@@ -42,10 +47,10 @@ const useTrack = (position: number, url: string, nextTrack: () => void): UseTrac
 
   const pauseTrack = (): void => {
     if (!audioRef.current?.paused) audioRef.current?.pause()
-    setTrackIsPlaying(false)
+    setTrackStatus('paused')
   }
 
-  return [progress, trackIsPlaying, playTrack, pauseTrack]
+  return [progress, trackStatus, playTrack, pauseTrack]
 }
 
 export default useTrack

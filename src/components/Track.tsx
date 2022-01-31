@@ -40,15 +40,24 @@ const Track: FC<Props> = ({
   tracksLength,
 }) => {
   const { index, start, end, duration, position, title, url } = track
-  const [progress, trackIsPlaying, play, pause] = useTrack(position, url, nextTrack)
+  const [progress, trackStatus, play, pause] = useTrack(position, url)
 
+  useEffect(() => {
+    if (trackStatus === 'ended') {
+      if (index < tracksLength - 1) {
+        setTrack(index + 1, true)
+      } else {
+        setTrack(0, false)
+      }
+    }
+  }, [setTrack, index, tracksLength, trackStatus])
   useEffect(() => {
     if (isPlaying && index === currentTrack) {
       play()
-    } else {
+    } else if ((!isPlaying || (isPlaying && index !== currentTrack)) && trackStatus === 'playing') {
       pause()
     }
-  }, [currentTrack, index, isPlaying, play, pause])
+  }, [currentTrack, index, isPlaying, play, pause, trackStatus])
   const [timeMouseDown, setTimeMouseDown] = useState<number | null>(null)
   const offset = coords.side / 2
   const radius = useMemo(() => {
@@ -88,7 +97,7 @@ const Track: FC<Props> = ({
     () => circumference - (draggedPosition * circumference) / duration,
     [draggedPosition, circumference, duration]
   )
-  const isDragging = timeMouseDown && new Date().getTime() - timeMouseDown > 300
+  const isDragging = timeMouseDown && new Date().getTime() - timeMouseDown > 500
 
   return (
     <>
@@ -100,7 +109,7 @@ const Track: FC<Props> = ({
               play(draggedPosition)
               setTrack(index, true)
             } else {
-              setTrack(index, !trackIsPlaying)
+              setTrack(index, trackStatus !== 'playing')
             }
             setTimeMouseDown(null)
           } else {
@@ -122,7 +131,9 @@ const Track: FC<Props> = ({
           hoverTrack(null)
         }}
         className={styles.Track}
-        title={`${trackIsPlaying ? 'Pause' : 'Play'} ${formatOrdinal(index + 1)} track: ${title}`}
+        title={`${trackStatus === 'playing' ? 'Pause' : 'Play'} ${formatOrdinal(
+          index + 1
+        )} track: ${title}`}
         role="button"
       >
         <g transform={`translate(${offset}, ${offset}) rotate(${rotation})  `}>
@@ -173,7 +184,7 @@ const Track: FC<Props> = ({
               className={styles.Track__infos__title}
               style={{ color: textColor }}
               title={`Current track: ${index + 1} ${title} Status ${
-                trackIsPlaying ? 'Playing' : 'Paused'
+                trackStatus === 'playing' ? 'Playing' : 'Paused'
               }`}
             >
               {title}
