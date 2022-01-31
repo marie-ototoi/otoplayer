@@ -1,6 +1,6 @@
 {
   "name": "@ototoi/otoplayer",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": false,
   "homepage": "https://www.ototoi.fr/otoplayer",
   "main": "./lib/otoplayer.cjs.js",

@@ -35,7 +35,6 @@ const Player: FC<PlayerProps> = ({
     selectedTrack,
     isPlaying,
     playTrack,
-    nextTrack,
     hoverTrack,
     selectTrack,
   } = usePlayer(0, tracks.length)
@@ -101,7 +100,6 @@ const Player: FC<PlayerProps> = ({
               hoveredTrack={hoveredTrack}
               isPlaying={isPlaying}
               key={`svg-track-${index}`}
-              nextTrack={nextTrack}
               playButtonRadius={playButtonRadius}
               setTrack={playTrack}
               selectedTrack={selectedTrack}

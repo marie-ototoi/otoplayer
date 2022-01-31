@@ -13,7 +13,6 @@ interface Props {
   selectTrack: (index: number | null) => void
   selectedTrack: number | null
   isPlaying: boolean
-  nextTrack: () => void
   playButtonRadius: number
   setTrack: (index: number, play: boolean) => void
   coords: Coords
@@ -28,7 +27,6 @@ const Track: FC<Props> = ({
   hoverTrack,
   hoveredTrack,
   isPlaying,
-  nextTrack,
   playButtonRadius,
   selectTrack,
   selectedTrack,

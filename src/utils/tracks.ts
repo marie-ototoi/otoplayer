@@ -22,8 +22,9 @@ export const getRingPath = (radius: number): string => {
 }
 
 export const getAngle = (point: Point, center: Point, rotation: number = 0): number => {
-  const angle = Math.atan2(point.y - center.y, point.x - center.x) * (180 / Math.PI) - rotation
-  return angle < 0 ? angle + 360 : angle
+  let angle = Math.atan2(point.y - center.y, point.x - center.x) * (180 / Math.PI) - rotation
+  while (angle < 0) angle += 360
+  return angle
 }
 
 export const formatDuration = (duration: number): string => {

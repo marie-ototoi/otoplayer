@@ -23,7 +23,6 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
       setCurrentTrack(trackIndex)
       setSelectedTrack(null)
       setIsPlaying(play)
-      console.log('play', trackIndex, play)
     }
   }
 
@@ -44,9 +43,7 @@ const usePlayer = (trackIndex: number, lastIndex: number): Props => {
   }
 
   const hoverTrack = (trackIndex: number | null): void => {
-    console.log(hoveredTrack, trackIndex)
     if (hoveredTrack !== trackIndex) {
-      console.log('ok set', trackIndex)
       setHoveredTrack(trackIndex)
     }
   }
